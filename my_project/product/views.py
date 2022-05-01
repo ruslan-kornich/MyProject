@@ -1,35 +1,47 @@
-from decimal import Decimal
-from uuid import uuid4
+import csv
 
 from django.http import HttpResponse
-from product.models import Product, Client
-from django.core.files import File
+from django.views.generic.list import ListView
+from product.models import Product
 
 
-def create_product(request):
-    camera = Product()
-    camera.count = 5
-    camera.product_description = "2Мп Starlight IP видеокамера с ИК подсветкой" \
-                                 "Матрица: 1/2.7 progressive CMOS " \
-                                 "Функции: видео аналитика (IVS)"
-    camera.url = 'https://viatec.ua/ru/product/DH-IPC-HDW2230TP-AS-S2-28'
-    camera.name = "DH-IPC-HDW2230TP-AS-S2 (2.8 мм)"
-    camera.save()
-    return HttpResponse('Created!')
+def upload_data(request):
+    with open('viatec.csv') as f:
+        reader = csv.reader(f)
+        for row in reader:
+            print(row)
+            try:
+                created = Product.objects.get_or_create(
+                    product_name=row[0],
+                    product_description=row[1],
+                    price=row[2],
+                    url=row[3],
+                )
+            except:
+                pass
+    return HttpResponse('Done!')
 
 
-def create_client(request):
-    client = Client.objects.create(**{
-        'second_email': 'admin@admin1.com',
-        'name': 'MyName',
-        'invoice': File(open('requirements.txt')),
-        'user_uuid': uuid4(),
-        'discount_size': Decimal('0.00052'),
-        'client_ip': '192.168.1.100',
-    })
-    return HttpResponse("Created")
+class FilterView(ListView):
+    template_name = 'product_table.html'
+    queryset: object = Product.objects.filter(price__contains="1833.0")
 
 
-def get_camera(request):
-    price = Product.shop.get(id=1).price
-    return HttpResponse(price)
+class ExcludeView(ListView):
+    template_name = 'product_table.html'
+    queryset = Product.objects.exclude(product_name__contains='камера')
+
+
+class OrderByView(ListView):
+    template_name = 'product_table.html'
+    queryset = Product.objects.exclude(product_name__contains='HDCVI видеокамера').order_by('price')
+
+
+class AllView(ListView):
+    template_name = 'product_table.html'
+    queryset = Product.objects.all()
+
+
+class UnionView(ListView):
+    template_name = 'product_table.html'
+    queryset = Product.objects.filter(product_name='1200').union(Product.objects.filter(product_name='HDCVI'))

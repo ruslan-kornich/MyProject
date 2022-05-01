@@ -7,7 +7,7 @@ from django.db import models
 # Create your models here.
 
 class Product(models.Model):
-    shop = models.Manager()
+    objects = models.Manager()
     image_product = models.ImageField(blank=True, null=True)
     product_name = models.CharField(max_length=100, unique=True)
     product_description = models.TextField(null=True, max_length=300)

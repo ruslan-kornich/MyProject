@@ -2,7 +2,9 @@ from django.urls import path
 from product import views
 
 urlpatterns = [
-    path('create-product/', views.create_product, name='create_product'),
-    path('create-client/', views.create_client, name='create_client'),
-    path('get_camera/', views.get_camera, name='get_camera'),
+    path('upload/', views.upload_data, name='upload'),
+    path('filter/', views.FilterView.as_view(), name='filter'),
+    path('exclude/', views.ExcludeView.as_view(), name='exclude'),
+    path('orderby/', views.OrderByView.as_view(), name='orderby'),
+    path('all/', views.AllView.as_view(), name='all'),
     ]
