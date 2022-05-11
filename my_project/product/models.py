@@ -7,6 +7,7 @@ from django.db import models
 # Create your models here.
 
 class Product(models.Model):
+
     objects = models.Manager()
     image_product = models.ImageField(blank=True, null=True)
     product_name = models.CharField(max_length=100, unique=True)
@@ -18,6 +19,7 @@ class Product(models.Model):
 
 
 class Supplier(models.Model):
+    objects = models.Manager()
     name_supplier = models.CharField(max_length=50, unique=True)
     brands = models.CharField(max_length=100)
     supplier_price = models.FileField(blank=True, null=True)
