@@ -1,5 +1,3 @@
-from uuid import uuid4
-
 from django.contrib.auth.models import User
 from django.db import models
 
@@ -7,7 +5,6 @@ from django.db import models
 # Create your models here.
 
 class Product(models.Model):
-
     objects = models.Manager()
     image_product = models.ImageField(blank=True, null=True)
     product_name = models.CharField(max_length=100, unique=True)
@@ -26,6 +23,7 @@ class Supplier(models.Model):
 
 
 class Client(models.Model):
+    objects = models.Manager()
     user = models.OneToOneField(User, on_delete=models.CASCADE, null=True)
     second_email = models.EmailField(null=True)
     name = models.CharField(max_length=64, null=True)
@@ -33,6 +31,12 @@ class Client(models.Model):
     user_uuid = models.UUIDField(editable=False, null=True)
     discount_size = models.DecimalField(max_digits=5, decimal_places=5, null=True)
     client_ip = models.GenericIPAddressField(blank=True, null=True, protocol="IPv4")
+
+
+class Contact(models.Model):
+    objects = models.Manager()
+    name = models.CharField(max_length=30)
+    email = models.EmailField(max_length=50)
 
     def __str__(self):
         return self.name

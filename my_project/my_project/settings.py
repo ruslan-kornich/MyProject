@@ -39,6 +39,9 @@ INSTALLED_APPS = [
     'rest_framework',
     'product',
     'rest',
+    'django_celery_results',
+    'django_celery_beat',
+    # 'celery-with-redis',
 
 ]
 
@@ -57,6 +60,24 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'my_project.urls'
+
+EMAIL_USE_SSL = True
+EMAIL_HOST = 'smtp.ukr.net'
+EMAIL_HOST_USER = 'free-protect@ukr.net'
+EMAIL_HOST_PASSWORD = '9a8pOSEH2QQjq2sp'  # 9a8pOSEH2QQjq2sp
+EMAIL_PORT = 465
+
+# CELERY_BROKER_URL = "redis://localhost:6379"
+
+REDIS_HOST = '127.0.0.1'
+REDIS_PORT = '6379'
+CELERY_BROKER_URL = "redis://" + REDIS_HOST + ':' + REDIS_PORT + '/0'
+CELERY_CACHE_BACKEND = 'django-cache'
+CELERY_BROKER_TRANSPORT_OPTIONS = {'visibility_timeout': 3600}
+CELERY_RESULT_BACKEND = "redis://" + REDIS_HOST + ':' + REDIS_PORT + '/0'
+CELERY_ACCEPT_CONTENT = ['application/json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
 
 TEMPLATES = [
     {
