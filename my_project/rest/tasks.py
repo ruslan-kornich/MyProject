@@ -1,6 +1,6 @@
 from rest.celery import app
-from product.models import Contact
-from .service import send
+from product.models.Contact import Contact
+from rest.service import send
 from django.core.mail import send_mail
 
 
@@ -18,3 +18,4 @@ def send_beat_email():
             [contact.email],
             fail_silently=False,
         )
+

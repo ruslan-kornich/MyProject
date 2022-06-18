@@ -1,5 +1,5 @@
 from django.contrib import admin
-from product.models import Contact
+from product.models.Contact import Contact
 
 
 # Register your models here.

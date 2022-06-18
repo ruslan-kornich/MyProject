@@ -2,7 +2,7 @@ import csv
 
 from django.http import HttpResponse
 from django.views.generic.list import ListView
-from product.models import Product
+from product.models.Product import Product
 
 
 def upload_data(request):
