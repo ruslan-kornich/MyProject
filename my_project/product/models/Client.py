@@ -12,4 +12,4 @@ class Client(models.Model):
     client_ip = models.GenericIPAddressField(blank=True, null=True, protocol="IPv4")
 
     def __str__(self):
-        self.name
+        var = self.name
